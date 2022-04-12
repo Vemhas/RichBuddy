@@ -5,8 +5,9 @@ import { db } from "./util/firebase-config.ts";
 import { collection, getDocs } from "firebase/firestore";
 import { ChakraProvider } from "@chakra-ui/react";
 import { AddNewAsset } from "./components/AddNewAsset";
-import FirebaseSignIn from "./components/FirebaseSignIn";
+import FirebaseSignIn from "./components/SignIn";
 import Navbar from "./components/Navbar";
+import { RecoilRoot } from "recoil";
 
 function App() {
   // const [companies, setCompanies] = useState([]);
@@ -37,13 +38,15 @@ function App() {
 
   return (
     <ChakraProvider>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<FirebaseSignIn />} />
-          <Route path="/add" element={<AddNewAsset />} />
-        </Routes>
-      </BrowserRouter>
+      <RecoilRoot>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<FirebaseSignIn />} />
+            <Route path="/add" element={<AddNewAsset />} />
+          </Routes>
+        </BrowserRouter>
+      </RecoilRoot>
     </ChakraProvider>
   );
 }
