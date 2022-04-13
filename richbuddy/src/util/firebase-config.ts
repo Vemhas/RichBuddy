@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { getAuth } from "firebase/auth";
 
 export const firebaseConfig = {
   apiKey: process.env.REACT_APP_apiKey,
@@ -18,29 +17,3 @@ export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
 export const db = getFirestore(app);
-
-// export const getSignedInUser = () => {
-//   onAuthStateChanged(auth, (user) => {
-//     if (user) {
-//       console.log("UserInfo:", user);
-//       return user;
-//       // ...
-//     } else {
-//       console.log("No user logged in at the moment...");
-//     }
-//   });
-// };
-
-export const useAuth = () => {
-  // Måtte til slutt bruke any. forstår ikke hvorfor User(firebase sitt Interface) eller andre måter, ikke funker:(
-  const [currentUser, setCurrentUser] = useState<any | null>(null);
-
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
-      return user ? setCurrentUser(user) : setCurrentUser(null);
-    });
-    return unsub();
-  }, []);
-
-  return currentUser;
-};

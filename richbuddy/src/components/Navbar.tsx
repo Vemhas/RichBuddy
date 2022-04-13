@@ -9,7 +9,6 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
   useColorModeValue,
   Stack,
   useColorMode,
@@ -19,8 +18,10 @@ import {
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../util/firebase-config";
-import { signOut, onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { signOut } from "firebase/auth";
+
+import { currentUserState } from "../store/store";
+import { useRecoilValue } from "recoil";
 
 const Links = [
   { title: "Dashboard", url: "/" },
@@ -32,25 +33,9 @@ const Links = [
 
 export default function Nav() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [uid, setUid] = useState("");
-  const [displayName, setDisplayName] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
+  // const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUid(user.uid);
-        setDisplayName(user.displayName!);
-        setPhotoURL(user.photoURL!);
-      } else {
-        setUid("");
-        setDisplayName("");
-        setPhotoURL("");
-      }
-    });
-  }, [uid, photoURL, displayName, setUid, setDisplayName, setPhotoURL]);
+  const currentUserRecoilState = useRecoilValue(currentUserState);
 
   return (
     <>
@@ -80,16 +65,19 @@ export default function Nav() {
                   cursor={"pointer"}
                   minW={0}
                 >
-                  <Avatar size={"sm"} src={photoURL} />
+                  <Avatar size={"sm"} src={currentUserRecoilState.photoURL} />
                 </MenuButton>
                 <MenuList alignItems={"center"}>
                   <br />
                   <Center>
-                    <Avatar size={"2xl"} src={photoURL} />
+                    <Avatar
+                      size={"2xl"}
+                      src={currentUserRecoilState.photoURL}
+                    />
                   </Center>
                   <br />
                   <Center>
-                    <p>{displayName}</p>
+                    <p>{currentUserRecoilState.displayName}</p>
                   </Center>
                   <br />
                   <MenuDivider />

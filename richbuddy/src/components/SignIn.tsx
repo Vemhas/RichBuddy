@@ -6,11 +6,7 @@ import "firebase/compat/auth";
 import { firebaseConfig } from "../util/firebase-config";
 import { Container, Flex, VStack, Heading } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
-import {
-  currentUserDisplayName,
-  currentUserphotoURL,
-  currentUserUid,
-} from "../store/store";
+import { currentUserState } from "../store/store";
 
 // Configure Firebase.
 firebase.initializeApp(firebaseConfig);
@@ -32,9 +28,8 @@ const uiConfig = {
 
 function SignInScreen() {
   const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
-  const [uid, setUid] = useRecoilState(currentUserUid);
-  const [displayName, setDisplayName] = useRecoilState(currentUserDisplayName);
-  const [photoURL, setPhotoURL] = useRecoilState(currentUserphotoURL);
+  const [currentUserRecoilState, setCurrentUserRecoilState] =
+    useRecoilState(currentUserState);
 
   // Listen to the Firebase Auth state and set the local state.
   useEffect(() => {
@@ -43,21 +38,23 @@ function SignInScreen() {
       .onAuthStateChanged((user) => {
         setIsSignedIn(!!user);
         if (user) {
-          //Trying to use a type guard:
-          const dName: string =
-            user.displayName !== null
-              ? user.displayName
-              : "no displayname returned";
-          setUid(user.uid);
-          //Kommentert ut pga TS-ERROR
-          // setDisplayName(dName);
-          // setPhotoURL(user.photoURL);
+          // Setting current user info to global state with a type guard:
+          setCurrentUserRecoilState({
+            uid: user.uid,
+            displayName: user.displayName !== null ? user.displayName : "",
+            photoURL: user.photoURL !== null ? user.photoURL : "",
+          });
         } else {
-          // User is signed out.
+          //Removing currentUser info from global state on log-out.
+          setCurrentUserRecoilState({
+            uid: "",
+            displayName: "",
+            photoURL: "",
+          });
         }
       });
     return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
-  }, []);
+  }, [setCurrentUserRecoilState]);
 
   if (!isSignedIn) {
     return (
@@ -84,7 +81,7 @@ function SignInScreen() {
   return (
     <VStack>
       <Heading size={"lg"}>
-        Welcome {firebase.auth().currentUser?.displayName}
+        Welcome {currentUserRecoilState.displayName}
       </Heading>
     </VStack>
   );
