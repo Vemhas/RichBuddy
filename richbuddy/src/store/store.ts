@@ -6,5 +6,6 @@ export const currentUserState = atom({
     uid: "",
     photoURL: "",
     displayName: "",
+    isSignedIn: false,
   },
 });

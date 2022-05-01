@@ -31,7 +31,7 @@ const Links = [
   },
 ];
 
-export default function Nav() {
+const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   // const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
@@ -90,4 +90,5 @@ export default function Nav() {
       </Box>
     </>
   );
-}
+};
+export default Navbar;

@@ -31,24 +31,21 @@ const AddRealEstate = () => {
       <VStack spacing={3}>
         <Heading size={"lg"}> Add Real Estate </Heading>
         <Input
-          textAlign="start"
           placeholder="Address"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
         />
         <Input
-          textAlign="start"
           placeholder="Size in m2"
           value={squareMeters}
           onChange={(e) => setSquareMeters(e.target.value)}
         />
         <Input
-          textAlign="start"
           placeholder="Price pr share"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
-        <Button onClick={handleClick} isFullWidth colorScheme="pink">
+        <Button onClick={handleClick} isFullWidth colorScheme="green">
           Add Asset
         </Button>
       </VStack>

@@ -33,30 +33,26 @@ const AddCrypto = () => {
       <VStack spacing={3}>
         <Heading size={"lg"}> Add Crypto Asset </Heading>
         <Input
-          textAlign="start"
-          placeholder="Assset name"
+          placeholder="Coin"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <Input
-          textAlign="start"
           placeholder="Ticker"
           value={ticker}
           onChange={(e) => setTicker(e.target.value)}
         />
         <Input
-          textAlign="start"
           placeholder="Amount"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
         />
         <Input
-          textAlign="start"
-          placeholder="Price"
+          placeholder="Price pr coin"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
-        <Button onClick={handleClick} isFullWidth colorScheme="pink">
+        <Button onClick={handleClick} isFullWidth colorScheme="green">
           Add Asset
         </Button>
       </VStack>

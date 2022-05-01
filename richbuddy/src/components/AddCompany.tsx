@@ -33,30 +33,26 @@ const AddCompany = () => {
       <VStack spacing={3}>
         <Heading size={"lg"}> Add Company </Heading>
         <Input
-          textAlign="start"
           placeholder="Company name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <Input
-          textAlign="start"
           placeholder="Percentage ownership"
           value={percentage}
           onChange={(e) => setPercentage(e.target.value)}
         />
         <Input
-          textAlign="start"
           placeholder="Amount of shares"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
         />
         <Input
-          textAlign="start"
           placeholder="Price pr share"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
-        <Button onClick={handleClick} isFullWidth colorScheme="pink">
+        <Button onClick={handleClick} isFullWidth colorScheme="green">
           Add Asset
         </Button>
       </VStack>

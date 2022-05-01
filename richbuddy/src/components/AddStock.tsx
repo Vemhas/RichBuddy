@@ -34,30 +34,26 @@ const AddStock = () => {
       <VStack spacing={3}>
         <Heading size={"lg"}> Add Stocks </Heading>
         <Input
-          textAlign="start"
           placeholder="Assset name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <Input
-          textAlign="start"
           placeholder="Ticker"
           value={ticker}
           onChange={(e) => setTicker(e.target.value)}
         />
         <Input
-          textAlign="start"
           placeholder="Amount"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
         />
         <Input
-          textAlign="start"
           placeholder="Price"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
-        <Button onClick={handleClick} isFullWidth colorScheme="pink">
+        <Button onClick={handleClick} isFullWidth colorScheme="green">
           Add Asset
         </Button>
       </VStack>

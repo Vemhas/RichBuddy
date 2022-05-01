@@ -29,26 +29,42 @@ const AddSyndicate = () => {
       <VStack spacing={3}>
         <Heading size={"lg"}> Add Syndicate </Heading>
         <Input
-          textAlign="start"
           placeholder="Syndicate name"
           onChange={(e) => setName(e.target.value)}
         />
         <Input
-          textAlign="start"
           placeholder="Percentage ownership"
           onChange={(e) => setPercentage(e.target.value)}
         />
         <Input
-          textAlign="start"
           placeholder="Amount of shares"
           onChange={(e) => setAmount(e.target.value)}
         />
         <Input
-          textAlign="start"
           placeholder="Price pr share"
           onChange={(e) => setPrice(e.target.value)}
         />
-        <Button onClick={handleClick} isFullWidth colorScheme="pink">
+        <Input
+          placeholder="Total project value"
+          onChange={(e) => setPrice(e.target.value)}
+        />{" "}
+        <Input
+          placeholder="Debt financing"
+          onChange={(e) => setPrice(e.target.value)}
+        />
+        <Input
+          placeholder="Net yield"
+          onChange={(e) => setPrice(e.target.value)}
+        />
+        <Input
+          placeholder="Cashflow"
+          onChange={(e) => setPrice(e.target.value)}
+        />
+        <Input
+          placeholder="Dividend percentage"
+          onChange={(e) => setPrice(e.target.value)}
+        />
+        <Button onClick={handleClick} isFullWidth colorScheme="green">
           Add Asset
         </Button>
       </VStack>

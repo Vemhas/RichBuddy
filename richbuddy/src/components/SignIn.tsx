@@ -1,4 +1,3 @@
-// Import FirebaseAuth and firebase.
 import React, { useEffect, useState } from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "firebase/compat/app";
@@ -26,7 +25,7 @@ const uiConfig = {
   },
 };
 
-function SignInScreen() {
+function SignIn() {
   const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
   const [currentUserRecoilState, setCurrentUserRecoilState] =
     useRecoilState(currentUserState);
@@ -43,6 +42,7 @@ function SignInScreen() {
             uid: user.uid,
             displayName: user.displayName !== null ? user.displayName : "",
             photoURL: user.photoURL !== null ? user.photoURL : "",
+            isSignedIn: true,
           });
         } else {
           //Removing currentUser info from global state on log-out.
@@ -50,6 +50,7 @@ function SignInScreen() {
             uid: "",
             displayName: "",
             photoURL: "",
+            isSignedIn: false,
           });
         }
       });
@@ -86,5 +87,4 @@ function SignInScreen() {
     </VStack>
   );
 }
-
-export default SignInScreen;
+export default SignIn;
