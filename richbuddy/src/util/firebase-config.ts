@@ -3,13 +3,14 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 export const firebaseConfig = {
-  apiKey: process.env.REACT_APP_apiKey,
-  authDomain: process.env.REACT_APP_authDomain,
-  projectId: process.env.REACT_APP_projectId,
-  storageBucket: process.env.REACT_APP_storageBucket,
-  messagingSenderId: process.env.REACT_APP_messagingSenderId,
-  appId: process.env.REACT_APP_appId,
-  measurementId: process.env.REACT_APP_measurementId,
+  apiKey: "AIzaSyCGVubB4voXluWnO0kheyxtLhAB5XTl4S0",
+  authDomain: "richb-a1b20.firebaseapp.com",
+  databaseURL: "https://richb-a1b20-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "richb-a1b20",
+  storageBucket: "richb-a1b20.appspot.com",
+  messagingSenderId: "276583882899",
+  appId: "1:276583882899:web:706fbfc8044b18d2afad66",
+  measurementId: "G-GFEEQMGN2S"
 };
 
 export const app = initializeApp(firebaseConfig);
