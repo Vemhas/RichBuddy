@@ -7,7 +7,6 @@ import AddNewAsset from "./components/AddNewAsset";
 import SignIn from "./components/SignIn";
 import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
-import CreatePortfolio from "./components/CreatePortfolio";
 
 function App() {
   return (
@@ -22,7 +21,6 @@ function App() {
                 <>
                   <SignIn />
                   <Dashboard />
-                  <CreatePortfolio/>
                 </>
               }
             />
