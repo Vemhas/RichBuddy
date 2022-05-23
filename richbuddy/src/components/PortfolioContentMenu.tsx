@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Accordion,
   Button,
@@ -12,6 +12,14 @@ import {
   Text,
   Tooltip,
   AccordionPanel,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import {
   AddIcon,
@@ -23,12 +31,16 @@ import {
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../store/store";
 import AddNewAsset from "./AddNewAsset";
+import { deletePortfolio } from "../util/firebaseFunctions";
 
 export const PortfolioContentMenu: React.FC<{ portfolioId: string }> = ({
   portfolioId,
 }) => {
   const currentUserRecoilState = useRecoilValue(currentUserState);
   const [portfolioData, setPortfolioData] = useState<Array<any>>([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef<HTMLButtonElement>(null);
+  const toast = useToast();
 
   useEffect(() => {
     const displayPamphletInfo = async (portfolioId: string) => {
@@ -41,6 +53,29 @@ export const PortfolioContentMenu: React.FC<{ portfolioId: string }> = ({
 
     displayPamphletInfo(portfolioId).catch(console.error);
   }, [currentUserRecoilState]);
+
+  const handleClick_deletePortfolio = async (portfolioId: string) => {
+    if (currentUserRecoilState.uid)
+      await deletePortfolio(currentUserRecoilState.uid, portfolioId).then(
+        (res) => {
+          if (res) {
+            toast({
+              title: "Slettet portfolio " + portfolioId,
+              status: "success",
+              duration: 4000,
+              isClosable: true,
+            });
+          } else {
+            toast({
+              title: "Kunne ikke slette portfolio " + portfolioId,
+              status: "warning",
+              duration: 4000,
+              isClosable: true,
+            });
+          }
+        }
+      );
+  };
 
   return (
     <>
@@ -163,6 +198,7 @@ export const PortfolioContentMenu: React.FC<{ portfolioId: string }> = ({
             Deling
           </Button>
           <Button
+            onClick={() => onOpen()}
             w={{ base: "90%" }}
             fontSize={{ base: "sm" }}
             flex={0.3}
@@ -172,6 +208,44 @@ export const PortfolioContentMenu: React.FC<{ portfolioId: string }> = ({
           >
             Slett portfolio
           </Button>
+          {/* Alert window for Deleting Pamphlet */}
+
+          <AlertDialog
+            isOpen={isOpen}
+            leastDestructiveRef={cancelRef}
+            onClose={onClose}
+          >
+            <AlertDialogOverlay>
+              <AlertDialogContent>
+                <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                  Slett Portfolio
+                </AlertDialogHeader>
+
+                <AlertDialogBody>
+                  Er du sikker? Du kan ikke angre denne handlingen.
+                </AlertDialogBody>
+
+                <AlertDialogFooter>
+                  <Button ref={cancelRef} onClick={onClose}>
+                    Avbryt
+                  </Button>
+                  <Button
+                    colorScheme="red"
+                    onClick={() => {
+                      console.log("slettet Portfolio med id: ", portfolioId);
+                      handleClick_deletePortfolio(portfolioId).catch(
+                        console.error
+                      );
+                      onClose();
+                    }}
+                    ml={3}
+                  >
+                    Slett portfolio
+                  </Button>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialogOverlay>
+          </AlertDialog>
         </Flex>
       </VStack>
     </>
