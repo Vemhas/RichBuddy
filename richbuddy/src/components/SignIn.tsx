@@ -81,10 +81,11 @@ function SignIn() {
   }
   return (
     <VStack>
-      <Heading size={"lg"}>
-        Welcome {currentUserRecoilState.displayName}
+      <Heading size={"lg"} mt={5}>
+        Portfolios
       </Heading>
     </VStack>
   );
 }
+
 export default SignIn;

@@ -3,6 +3,7 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "../store/store";
 import { addPortfolio } from "../util/firebaseFunctions";
 import {
+  Box,
   Button,
   Container,
   Heading,
@@ -50,17 +51,35 @@ const CreatePortfolio = () => {
   };
   if (currentUserRecoilState.isSignedIn) {
     return (
-      <Container pt={10}>
-        <VStack spacing={3}>
-          <Heading size={"lg"}> Add a portfolio </Heading>
-          <Input
-            placeholder="Portfolio name"
-            value={portfolioName}
-            onChange={(e) => setPortfolioName(e.target.value)}
-          />
-          <Button onClick={() => handleClick()}>Create portfolio</Button>
+      <>
+        <VStack
+          bg={"white"}
+          p={{ base: 3, md: 6, xl: 10 }}
+          borderRadius="md"
+          shadow="md"
+        >
+          <Box>
+            <Heading
+              size={"md"}
+              marginTop={{ base: 0, md: -2 }}
+              marginBottom={2}
+            >
+              Create portfolio
+            </Heading>
+          </Box>
+          <Container mt={50} centerContent>
+            <Input
+              mb={2}
+              size={"md"}
+              width={"100%"}
+              placeholder="Portfolio name"
+              value={portfolioName}
+              onChange={(e) => setPortfolioName(e.target.value)}
+            />
+            <Button onClick={() => handleClick()}>Create</Button>
+          </Container>
         </VStack>
-      </Container>
+      </>
     );
   } else {
     return null;

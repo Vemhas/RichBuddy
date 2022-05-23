@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../util/firebase-config";
 import { collection, onSnapshot } from "firebase/firestore";
-import { Heading, VStack } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Container,
+} from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../store/store";
+
+import { AddIcon } from "@chakra-ui/icons";
+import { PortfolioContentMenu } from "./PortfolioContentMenu";
 import CreatePortfolio from "./CreatePortfolio";
 
 const Dashboard = () => {
   const [portfolios, setPortfolios] = useState([] | null);
-
   const currentUserRecoilState = useRecoilValue(currentUserState);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (currentUserRecoilState.isSignedIn) {
       let portfolioDocsRef = collection(
         db,
@@ -30,16 +40,55 @@ const Dashboard = () => {
 
   if (currentUserRecoilState.isSignedIn) {
     return (
-      <VStack>
-        <Heading>List of portfolios</Heading>
-        {portfolios &&
-          portfolios.map((portfolio) => (
-            <Heading key={portfolio.id} size={"md"}>
-              {portfolio.name}
-            </Heading>
-          ))}
-        <CreatePortfolio />
-      </VStack>
+      <Container mt={3}>
+        <Accordion allowToggle>
+          {portfolios &&
+            portfolios.map((portfolio) => (
+              <AccordionItem key={portfolio.name}>
+                <h1>
+                  <AccordionButton
+                    onClick={() => {
+                      console.log("portfolioID", portfolio.id);
+                    }}
+                    _expanded={{
+                      bg: "purple.100",
+                      border: "0.2px purple",
+                      borderRadius: 5,
+                    }}
+                  >
+                    <Box flex={"1"} textAlign={"left"}>
+                      {portfolio.name}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h1>
+                <AccordionPanel>
+                  <PortfolioContentMenu portfolioId={portfolio.id} />
+                </AccordionPanel>
+              </AccordionItem>
+            ))}
+          <AccordionItem>
+            <AccordionButton
+              marginTop={5}
+              bg={"green.100"}
+              _hover={{ bg: "green.200" }}
+              _expanded={{
+                bg: "green.200",
+                border: "0.2px green",
+                borderRadius: 5,
+              }}
+            >
+              <Box flex={"1"} textAlign={"left"}>
+                Opprett ny portfolio
+              </Box>
+              <AddIcon fontSize="10px" marginRight={1} />
+            </AccordionButton>
+            <AccordionPanel>
+              <CreatePortfolio />
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+      </Container>
     );
   } else {
     return null;

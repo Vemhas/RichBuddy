@@ -24,16 +24,16 @@ const AddNewAsset = () => {
     return (
       <Flex
         align="center"
-        justify={{ base: "center", md: "space-around", xl: "space-between" }}
+        justify={{ base: "start", md: "space-around", xl: "space-between" }}
         direction={{ base: "column-reverse", md: "row" }}
         wrap="nowrap"
-        minH="80vh"
         px={8}
+        mb={10}
       >
         <Container>
           <VStack spacing={3}>
             <FormControl>
-              <Heading textAlign={"center"} paddingBottom={4}>
+              <Heading size={"md"} textAlign={"center"} paddingBottom={4}>
                 Select Asset type
               </Heading>
               <Select
