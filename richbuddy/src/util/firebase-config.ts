@@ -1,29 +1,20 @@
-import {initializeApp} from "firebase/app";
-import {getFirestore} from "firebase/firestore";
-import {getAuth, GoogleAuthProvider, signInWithPopup} from "firebase/auth"
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
-const firebaseConfig = {
-    apiKey: process.env.REACT_APP_apiKey,
-    authDomain: process.env.REACT_APP_authDomain,
-    projectId: process.env.REACT_APP_projectId,
-    storageBucket: process.env.REACT_APP_storageBucket,
-    messagingSenderId: process.env.REACT_APP_messagingSenderId,
-    appId: process.env.REACT_APP_appId,
-    measurementId: process.env.REACT_APP_measurementId
+export const firebaseConfig = {
+  apiKey: "AIzaSyCGVubB4voXluWnO0kheyxtLhAB5XTl4S0",
+  authDomain: "richb-a1b20.firebaseapp.com",
+  databaseURL: "https://richb-a1b20-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "richb-a1b20",
+  storageBucket: "richb-a1b20.appspot.com",
+  messagingSenderId: "276583882899",
+  appId: "1:276583882899:web:706fbfc8044b18d2afad66",
+  measurementId: "G-GFEEQMGN2S"
 };
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 
-const provider = new GoogleAuthProvider();
-
-export const auth = getAuth(app)
+export const auth = getAuth(app);
 
 export const db = getFirestore(app);
-
-export const signInWithGoogle = () => {
-    signInWithPopup(auth, provider).then((result) => {
-        console.log(result)
-    }).catch((error) => {
-        console.log(error)
-    })
-}
