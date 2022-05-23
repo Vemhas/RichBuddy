@@ -31,7 +31,7 @@ import {
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../store/store";
 import AddNewAsset from "./AddNewAsset";
-import { deletePortfolio } from "../util/firebaseFunctions";
+import { deletePortfolio, getPortfolioData } from "../util/firebaseFunctions";
 
 export const PortfolioContentMenu: React.FC<{ portfolioId: string }> = ({
   portfolioId,
@@ -43,15 +43,17 @@ export const PortfolioContentMenu: React.FC<{ portfolioId: string }> = ({
   const toast = useToast();
 
   useEffect(() => {
-    const displayPamphletInfo = async (portfolioId: string) => {
+    const displayPortfolioData = async (portfolioId: string) => {
       if (currentUserRecoilState.uid) {
-        // await getPortfolioData(pamphletID, uid).then((r) =>
-        //   setPortfolioData(r)
-        // );
+        await getPortfolioData(currentUserRecoilState.uid, portfolioId).then(
+          (r) => {
+            setPortfolioData(r);
+          }
+        );
       }
     };
 
-    displayPamphletInfo(portfolioId).catch(console.error);
+    displayPortfolioData(portfolioId).catch(console.error);
   }, [currentUserRecoilState]);
 
   const handleClick_deletePortfolio = async (portfolioId: string) => {
@@ -149,7 +151,7 @@ export const PortfolioContentMenu: React.FC<{ portfolioId: string }> = ({
               <AddIcon fontSize="10px" marginRight={1} />
             </AccordionButton>
             <AccordionPanel>
-              <AddNewAsset />
+              <AddNewAsset portfolioId={portfolioId} />
             </AccordionPanel>
           </AccordionItem>
         </Accordion>

@@ -7,25 +7,33 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-const AddCrypto = () => {
+import { addNewAsset } from "../util/firebaseFunctions";
+import { useRecoilValue } from "recoil";
+import { currentUserState } from "../store/store";
+
+const AddCrypto: React.FC<{ pId: string }> = (pId) => {
   const toast = useToast();
   const [name, setName] = useState("");
   const [ticker, setTicker] = useState("");
   const [amount, setAmount] = useState("");
   const [price, setPrice] = useState("");
+  const currentUserRecoilState = useRecoilValue(currentUserState);
 
-  const handleClick = () => {
-    toast({
-      title: "Crypto added",
-      description: `Added ${amount} of ${name}//${ticker} at $${price}`,
-      status: "success",
-      duration: 3000,
-      isClosable: true,
+  const handleClick = async () => {
+    await addNewAsset(currentUserRecoilState.uid, pId.pId, name).then(() => {
+      console.log("uid ", currentUserRecoilState.uid, "portfolioId: ", pId);
+      toast({
+        title: "Crypto added",
+        description: `Added ${amount} of ${name}//${ticker} at $${price}`,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      setName("");
+      setAmount("");
+      setPrice("");
+      setTicker("");
     });
-    setName("");
-    setAmount("");
-    setPrice("");
-    setTicker("");
   };
 
   return (
@@ -33,7 +41,7 @@ const AddCrypto = () => {
       <VStack spacing={3}>
         <Heading size={"lg"}> Add Crypto Asset </Heading>
         <Input
-          placeholder="Coin"
+          placeholder="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />

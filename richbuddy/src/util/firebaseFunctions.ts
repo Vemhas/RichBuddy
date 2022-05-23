@@ -1,4 +1,12 @@
-import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  deleteDoc,
+  addDoc,
+  collection,
+} from "firebase/firestore";
 import { db } from "./firebase-config";
 
 export const addPortfolio = async (portfolioName: string, uid: string) => {
@@ -26,6 +34,34 @@ export const deletePortfolio = async (uid: string, portfolioName: string) => {
   }
 };
 
-// export const addNewAsset = () => {
-//   const docRef = doc(db, "users");
-// };
+export const addNewAsset = async (
+  uid: string,
+  portfolioName: string,
+  name: string
+) => {
+  const docRef = doc(db, "users", uid, "portfolios", portfolioName);
+  await addDoc(collection(docRef, "assets"), {
+    name: name,
+  });
+};
+
+export const getPortfolioData = async (
+  uid: string,
+  portfolioId: string
+): Promise<Array<any>> => {
+  const dataCollectionRef = collection(
+    db,
+    "users",
+    uid,
+    "portfolios",
+    portfolioId,
+    "assets"
+  );
+
+  const querySnapshot = await getDocs(dataCollectionRef);
+
+  console.log("querySnapshot", querySnapshot);
+  return querySnapshot.docs.map((_data) => ({
+    name: _data.data().name,
+  }));
+};

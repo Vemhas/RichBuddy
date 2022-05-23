@@ -16,7 +16,7 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "../store/store";
 import SignIn from "./SignIn";
 
-const AddNewAsset = () => {
+const AddNewAsset: React.FC<{ portfolioId: string }> = ({ portfolioId }) => {
   const [type, setType] = useState("");
   const currentUserRecoilState = useRecoilValue(currentUserState);
 
@@ -49,7 +49,7 @@ const AddNewAsset = () => {
               </Select>
             </FormControl>
             {type === "crypto" ? (
-              <AddCrypto />
+              <AddCrypto pId={portfolioId} />
             ) : type === "realEstate" ? (
               <AddRealEstate />
             ) : type === "stocks" ? (
